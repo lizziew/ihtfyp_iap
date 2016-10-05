@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ihtfyp</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/start_page.css" rel="stylesheet">
+  <!-- This is from https://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js -->
+  <script src="/javascripts/labrat.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+  </style>
+</head>
+<body style="background-color: #FCF0E4">
+  <!--CITATION Navbar: http://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_navbar&stacked=h-->
+  <nav class="navbar navbar-inverse transparent navbar-static-top foreground">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand logo_font" id="logo" href="#"><span class="glyphicon glyphicon-search"></span>    i have truly found your phone > about</a>
+      </div>
+      <div class="nav navbar-nav navbar-right">
+        <ul class="dropdown navbar-brand logo_font">
+          <div class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>   <%= username %> <span class="caret"></span></div>
+          <ul class="dropdown-menu">
+            <li><a href="#" id="home_button">Home</a></li>
+            <li><a href="#" id="dashboard_button">Dashboard</a></li>
+            <li><a href="#" id="d3_button">MIT's Stats</a></li> 
+            <li><a href="#" id="about_button">About</a></li> 
+            <li><a href="#" id="logout_button">Log out</a></li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8" text-align="center">
+    <h1>About ihtfyp</h1>
+    <h2>Matching items</h2>
+    <p>Our algorithm matches items by category, subcategory, location, and current status. We will only match items of the same type. If a location is specified, we'll also filter out items further than half a mile away. We won't match items that have already been picked up. You may receive multiple matches for your lost or found item - it's up to you to pick which one is correct!</p>
+    <h2>Ensuring that you get the right item back</h2>
+    <p>We've built verification into the matching process. For example, if someone claims they have lost cash, they must specify the amount. The finder will confirm or deny the verification answer. At any point, the finder or loser can choose to leave the matching process.</p>
+    <h2>Visualizing lost and found items around MIT</h2> 
+    <p>As we were building this site, we were curious about which items MIT students find or lose the most often around campus. So, we've created an interactive graph to show currently lost and found items around MIT by category and subcategory.</p>
+    <br></br>
+    <p>made by lemur + liz</p>
+    <img src="/images/pusheengif.gif">
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+</body>
+
+<script>
+  $('html').on("click","#logo", function(){
+    $(location).attr("href","https://ihtfyp.herokuapp.com/start_page");
+  });
+
+  $('html').on("click","#logout_button", function(){
+    $.ajax({
+      url: '/logout',
+      data: {},
+      type: 'POST',
+      success: function(data) {
+        if(data === 'clear_cookies_success')
+         $(location).attr("href","https://ihtfyp.herokuapp.com");
+      },
+      error: function(xhr, status, error) {
+        console.log("Uh oh there was an error: " + error);
+        console.log(xhr.status);
+        console.log(xhr.responseText);
+      }
+    });
+  });
+
+  $('html').on("click","#dashboard_button", function(){
+    $(location).attr("href","https://ihtfyp.herokuapp.com/dashboard");
+  });
+
+  $('html').on("click","#home_button", function(){
+    $(location).attr("href","https://ihtfyp.herokuapp.com/start_page");
+  });
+
+  $('html').on("click","#about_button", function(){
+    $(location).attr("href","https://ihtfyp.herokuapp.com/about");
+  });
+
+  $('html').on("click","#d3_button", function(){
+    $(location).attr("href","https://ihtfyp.herokuapp.com/visualization");
+  });
+</script>
+
+</html>
